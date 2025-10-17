@@ -1,11 +1,11 @@
 form {
   width: 400px;
-  height: 500px;
+  height: 400px;
   margin: 2rem auto;
   padding: 2rem;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #ece7e7;
+  background-color: #e7e1e1;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   font-family:'Times New Roman', Times, serif;
 }
@@ -14,7 +14,7 @@ form {
 .header {
   text-align: center;
   margin-bottom: 1.5rem;
-  width: 400px;
+  max-width: 400px;
 
 }
 
@@ -24,7 +24,7 @@ form {
   color: #222;
   font-style: italic;
   font-size: 29px;
-  padding: 2px;
+  padding: 8px;
   text-align: center;
 }
 

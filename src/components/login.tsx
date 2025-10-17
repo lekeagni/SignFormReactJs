@@ -7,30 +7,19 @@ import "../style/login.css";
 import "../style/ui.css";
 
 interface FormValues {
-  name: string;
   email: string;
   password: string;
-  cpassword: string;
 }
 
-export const SignupForm: React.FC = () => {
+ const Login: React.FC = () => {
   // const navigate = useNavigate();
 
   const formik = useFormik<FormValues>({
     initialValues: {
-      name: "",
       email: "",
       password: "",
-      cpassword: "",
     },
 validationSchema: Yup.object({
-  name: Yup.string()
-    .required("Le nom est requis.")
-
-    .matches(
-      /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/,
-      "Le nom ne doit contenir que des lettres sans espace."
-    ),
 
   email: Yup.string()
     .required("L'e-mail est requis.")
@@ -48,37 +37,20 @@ validationSchema: Yup.object({
       "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
     ),
 
-  cpassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Les mots de passe ne correspondent pas.")
-    .required("Confirmation requise."),
 }),
 
     onSubmit: (values) => {
-      alert("Inscription réussie !");
+      alert("Connexion réussie !");
       console.log(values);
-      // navigate("/login");
+      // navigate("./productForm.tsx");
+
     },
   });
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="header">
-        <h2>Créez votre compte</h2>
-      </div>
-
-      <div className="container">
-        {formik.touched.name && formik.errors.name && (
-          <p className="error">{formik.errors.name}</p>
-        )}
-        <Input
-          label="Nom"
-          type="text"
-          name="name"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          placeholder="Entrez votre nom"
-        />
+        <h2>Connectez-vous!</h2>
       </div>
 
       <div className="container">
@@ -111,25 +83,11 @@ validationSchema: Yup.object({
         />
       </div>
 
-      <div className="container">
-        {formik.touched.cpassword && formik.errors.cpassword && (
-          <p className="error">{formik.errors.cpassword}</p>
-        )}
-        <Input
-          label="Confirmation du mot de passe"
-          type="password"
-          name="cpassword"
-          value={formik.values.cpassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          placeholder="Confirmez le mot de passe"
-        />
-      </div>
-
       <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
-        <Button label="S'inscrire" type="submit" variant="primary" />
-        <Button label="Annuler" type="button" variant="secondary" onClick={() => alert("Annulé")} />
+        <Button label="Se connecter" type="submit" variant="primary" />
       </div>
     </form>
   );
 };
+
+export default Login
