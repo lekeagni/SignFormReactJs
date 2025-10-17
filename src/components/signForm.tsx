@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import { Input, Button } from "../ui";
-// import { useNavigate } from "react-router-dom";
 import "../style/login.css";
 import "../style/ui.css";
 
@@ -14,8 +14,8 @@ interface FormValues {
 }
 
 export const SignupForm: React.FC = () => {
-  // const navigate = useNavigate();
-
+  const navigate = useNavigate();
+  
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -23,40 +23,35 @@ export const SignupForm: React.FC = () => {
       password: "",
       cpassword: "",
     },
-validationSchema: Yup.object({
-  name: Yup.string()
-    .required("Le nom est requis.")
-
-    .matches(
-      /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/,
-      "Le nom ne doit contenir que des lettres sans espace."
-    ),
-
-  email: Yup.string()
-    .required("L'e-mail est requis.")
-
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "L'e-mail n'est pas valide."
-    ),
-
-  password: Yup.string()
-    .required("Le mot de passe est requis.")
-    .min(6, "Le mot de passe doit contenir au moins 6 caractères.") 
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/,
-      "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
-    ),
-
-  cpassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Les mots de passe ne correspondent pas.")
-    .required("Confirmation requise."),
-}),
-
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .required("Le nom est requis.")
+        .matches(
+          /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/,
+          "Le nom ne doit contenir que des lettres sans espace."
+        ),
+      email: Yup.string()
+        .required("L'e-mail est requis.")
+        .matches(
+          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          "L'e-mail n'est pas valide."
+        ),
+      password: Yup.string()
+        .required("Le mot de passe est requis.")
+        .min(6, "Le mot de passe doit contenir au moins 6 caractères.")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/,
+          "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+        ),
+      cpassword: Yup.string()
+        .oneOf([Yup.ref("password")], "Les mots de passe ne correspondent pas.")
+        .required("Confirmation requise."),
+    }),
     onSubmit: (values) => {
       alert("Inscription réussie !");
       console.log(values);
-      // navigate("/login");
+      // Redirection vers la liste de produits après inscription
+      navigate("/products");
     },
   });
 
@@ -65,7 +60,6 @@ validationSchema: Yup.object({
       <div className="header">
         <h2>Créez votre compte</h2>
       </div>
-
       <div className="container">
         {formik.touched.name && formik.errors.name && (
           <p className="error">{formik.errors.name}</p>
@@ -80,7 +74,6 @@ validationSchema: Yup.object({
           placeholder="Entrez votre nom"
         />
       </div>
-
       <div className="container">
         {formik.touched.email && formik.errors.email && (
           <p className="error">{formik.errors.email}</p>
@@ -95,7 +88,6 @@ validationSchema: Yup.object({
           placeholder="Entrez votre adresse email"
         />
       </div>
-
       <div className="container">
         {formik.touched.password && formik.errors.password && (
           <p className="error">{formik.errors.password}</p>
@@ -110,7 +102,6 @@ validationSchema: Yup.object({
           placeholder="Entrez votre mot de passe"
         />
       </div>
-
       <div className="container">
         {formik.touched.cpassword && formik.errors.cpassword && (
           <p className="error">{formik.errors.cpassword}</p>
@@ -125,11 +116,17 @@ validationSchema: Yup.object({
           placeholder="Confirmez le mot de passe"
         />
       </div>
-
       <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
         <Button label="S'inscrire" type="submit" variant="primary" />
-        <Button label="Annuler" type="button" variant="secondary" onClick={() => alert("Annulé")} />
+        <Button 
+          label="Annuler" 
+          type="button" 
+          variant="secondary" 
+          onClick={() => navigate("/login")} 
+        />
       </div>
     </form>
   );
 };
+
+export default SignupForm;

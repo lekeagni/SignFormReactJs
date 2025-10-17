@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import { Input, Button } from "../ui";
-// import { useNavigate } from "react-router-dom";
 import "../style/login.css";
 import "../style/ui.css";
 
@@ -11,39 +11,34 @@ interface FormValues {
   password: string;
 }
 
- const Login: React.FC = () => {
-  // const navigate = useNavigate();
-
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  
   const formik = useFormik<FormValues>({
     initialValues: {
       email: "",
       password: "",
     },
-validationSchema: Yup.object({
-
-  email: Yup.string()
-    .required("L'e-mail est requis.")
-
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "L'e-mail n'est pas valide."
-    ),
-
-  password: Yup.string()
-    .required("Le mot de passe est requis.")
-    .min(6, "Le mot de passe doit contenir au moins 6 caractères.") 
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/,
-      "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
-    ),
-
-}),
-
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .required("L'e-mail est requis.")
+        .matches(
+          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          "L'e-mail n'est pas valide."
+        ),
+      password: Yup.string()
+        .required("Le mot de passe est requis.")
+        .min(6, "Le mot de passe doit contenir au moins 6 caractères.")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/,
+          "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+        ),
+    }),
     onSubmit: (values) => {
       alert("Connexion réussie !");
       console.log(values);
-      // navigate("./productForm.tsx");
-
+      // Redirection vers la liste de produits
+      navigate("/products");
     },
   });
 
@@ -52,7 +47,6 @@ validationSchema: Yup.object({
       <div className="header">
         <h2>Connectez-vous!</h2>
       </div>
-
       <div className="container">
         {formik.touched.email && formik.errors.email && (
           <p className="error">{formik.errors.email}</p>
@@ -67,7 +61,6 @@ validationSchema: Yup.object({
           placeholder="Entrez votre adresse email"
         />
       </div>
-
       <div className="container">
         {formik.touched.password && formik.errors.password && (
           <p className="error">{formik.errors.password}</p>
@@ -82,7 +75,6 @@ validationSchema: Yup.object({
           placeholder="Entrez votre mot de passe"
         />
       </div>
-
       <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
         <Button label="Se connecter" type="submit" variant="primary" />
       </div>
@@ -90,4 +82,4 @@ validationSchema: Yup.object({
   );
 };
 
-export default Login
+export default Login;

@@ -135,3 +135,5 @@ export const ProductList: React.FC = () => {
         </section>
     );
 };
+
+export default ProductList;
